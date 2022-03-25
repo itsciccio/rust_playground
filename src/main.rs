@@ -1,6 +1,9 @@
 mod menu;
 mod person;
+mod contact_book;
+mod utils;
 
 fn main(){
-    menu::show_menu();
+    let contactbook = contact_book::ContactBook::new();
+    menu::show_menu(contactbook);
 }

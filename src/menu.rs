@@ -1,24 +1,14 @@
-use std::io::stdin;
-use crate::person::person_options;
+use crate::contact_book::ContactBook;
+use crate::utils;
 
-fn read_menu_input_to_int() -> Result<i8, std::num::ParseIntError> {
-
-    let mut input = String::new();
-    stdin().read_line(&mut input).expect("ok");       
-
-    let choice = input.trim().parse::<i8>()?;
-
-    Ok(choice)
-}
-
-pub fn show_menu(){
+pub fn show_menu(mut contact_book: ContactBook){
     loop {
 
         println!("\n-- MENU --");
         println!("Enter choice:");
 
         let choice:i8;
-        match read_menu_input_to_int() {
+        match utils::read_menu_input_to_int() {
             Ok(choice_result) => {
                 choice = choice_result;
             },
@@ -29,15 +19,21 @@ pub fn show_menu(){
 
         match choice {
             1 => {
-                match person_options::create_person(){
+                match contact_book.create_person(){
                     Ok(person) => person,
                     Err(_) => (),
                 };
             },
             2 => {
-                println!("Choice 2");
+                contact_book.view_all_person_list();
             },
             3 => {
+                match contact_book.view_person_by_id(){
+                    Ok(person) => person,
+                    Err(_) => (),
+                }
+            },
+            4 => {
                 println!("Goodbye");
                 break;
             },
