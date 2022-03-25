@@ -36,8 +36,6 @@ impl ContactBook {
         let person = Person::new(String::from(name), phone);
     
         println!("Created person!");
-        // println!("Name:  {}", person.get_name());
-        // println!("Phone: {}", person.get_phone());
 
         self.person_list.push(person);
         
@@ -46,9 +44,7 @@ impl ContactBook {
 
     pub fn view_all_person_list(&self) {
         for person in &self.person_list {
-            println!("ID:    {}", person.get_id());
-            println!("Name:  {}", person.get_name());
-            println!("Phone: {}", person.get_phone());
+            person.view_details(true);
         }
     }
 
@@ -56,14 +52,9 @@ impl ContactBook {
         let mut input = String::new();
         stdin().read_line(&mut input).expect("ok");    
 
-        //retry all of this... turns out the string had a newline \n at the end... haq alla
-
-        // let input_parse: &str = &input;
-
         let uuid_to_search = match Uuid::parse_str(input.trim()){
             Ok(uuid) => uuid,
             Err(_) => {
-                // println!("Invalid UUID.");
                 return Err("Invalid UUID.")
             }
         };
@@ -76,7 +67,20 @@ impl ContactBook {
         return Err("Person not found.")
     }
 
-    pub fn view_person_by_id(&self) -> Result<(), uuid::Error>  {
+    pub fn view_person_by_id(&self)  {
+        let person = match self.find_person_by_id(){
+            Ok(person) => person,
+            Err(e) => {
+                println!("{}", e);
+                return
+            }
+        };
+
+        println!("Person found!");
+        person.view_details(false);
+    }
+
+    pub fn delete_person_by_id(&self) -> Result<(), uuid::Error>  {
         let person = match self.find_person_by_id(){
             Ok(person) => person,
             Err(e) => {
@@ -85,9 +89,11 @@ impl ContactBook {
             }
         };
 
-        println!("Name:  {}", person.get_name());
-        println!("Phone: {}", person.get_phone()); 
+        println!("Person found!");
+        println!("Deleting...");
 
+        // TODO: implement the removal of person from list
+        // self.person_list.retain(|x| *x != person;
         Ok(())
     }
 }

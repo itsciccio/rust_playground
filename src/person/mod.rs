@@ -12,6 +12,14 @@ impl Person {
         Person{id:new_uuid, name, phone}
     }
 
+    pub fn view_details(&self, show_id:bool) {
+        if show_id {
+            println!("ID:    {}", self.get_id());
+        }        
+        println!("Name:  {}", self.get_name());
+        println!("Phone: {}", self.get_phone());
+    }
+
     pub fn get_id(&self)-> Uuid{
         self.id
     }

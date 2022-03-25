@@ -28,10 +28,7 @@ pub fn show_menu(mut contact_book: ContactBook){
                 contact_book.view_all_person_list();
             },
             3 => {
-                match contact_book.view_person_by_id(){
-                    Ok(person) => person,
-                    Err(_) => (),
-                }
+                contact_book.view_person_by_id();
             },
             4 => {
                 println!("Goodbye");
